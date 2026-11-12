@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# YouthBiz
 
-## Getting Started
+Youth Financial Literacy & Entrepreneurship Club.
 
-First, run the development server:
+## Phase 1 setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Requirements: Node.js 20.9 or newer and npm.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Install the root runner: `npm install`.
+2. Install the frontend dependencies: `npm install --prefix frontend`.
+3. Install the API dependencies: `npm install --prefix backend`.
+4. Copy `backend/.env.example` to `backend/.env`. Leave `MONGODB_URI` blank to run the API without a database, or add your private Atlas URI before starting it.
+5. Copy `frontend/.env.example` to `frontend/.env.local`.
+6. Start both applications from the root with `npm run dev`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The website runs at <http://localhost:3000>. The API health check is at <http://localhost:4000/api/health>. To run only one application, use `npm run dev:web` or `npm run dev:api` from the root.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `frontend/`: Next.js App Router, JavaScript, and Tailwind CSS.
+- `backend/src/controllers/`, `routes/`, and `middleware/`: Express MVC foundation. Feature models are introduced alongside database-backed features in the next phase.
+- Environment files are local-only; keep credentials out of source control.

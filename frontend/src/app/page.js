@@ -10,7 +10,10 @@ export default function Home() {
           <a href="#how-it-works">How it works</a>
           <a href="#club">The club</a>
         </nav>
-        <a className="header-link" href="mailto:hello@youthbiz.club">Get in touch <span aria-hidden="true">↗</span></a>
+        <div className="header-actions">
+          <a className="login-link" href="/login">Log in</a>
+          <a className="header-link" href="mailto:hello@youthbiz.club">Get in touch <span aria-hidden="true">↗</span></a>
+        </div>
       </header>
 
       <section className="hero" id="home">
@@ -19,7 +22,7 @@ export default function Home() {
           <h1>Big ideas start<br />with <span>small change.</span></h1>
           <p className="hero-description">A hands-on club where young people turn bright ideas into real businesses, and learn what it takes to make them work.</p>
           <div className="hero-actions">
-            <a className="button button-dark" href="mailto:hello@youthbiz.club">Join the club <span aria-hidden="true">↗</span></a>
+            <a className="button button-dark" href="/register">Join the club <span aria-hidden="true">↗</span></a>
             <a className="text-link" href="#how-it-works">See what we do <span aria-hidden="true">↓</span></a>
           </div>
           <div className="hero-note"><span className="note-stars" aria-hidden="true">✳</span><span>Made for curious minds<br /><strong>Ages 8–17</strong></span></div>
