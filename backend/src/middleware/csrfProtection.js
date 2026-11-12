@@ -23,7 +23,7 @@ export function issueCsrfToken(_request, response) {
   const nonce = randomBytes(32).toString("base64url");
   const token = `${nonce}.${signatureFor(nonce)}`;
 
-  response.clearCookie(CSRF_COOKIE, { ...csrfCookieClearOptions, path: "/api/auth" });
+  // response.clearCookie(CSRF_COOKIE, { ...csrfCookieClearOptions, path: "/api/auth" });
   response.cookie(CSRF_COOKIE, token, csrfCookieOptions);
   response.set("Cache-Control", "no-store").json({ csrfToken: token });
 }
