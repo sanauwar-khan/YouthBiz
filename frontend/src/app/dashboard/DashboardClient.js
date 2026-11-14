@@ -34,6 +34,7 @@ export default function DashboardClient() {
   const [loadError, setLoadError] = useState("");
   const [actionError, setActionError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [ideaDraft, setIdeaDraft] = useState({ title: "", description: "" });
   const [editingIdea, setEditingIdea] = useState(null);
   const [transactionDraft, setTransactionDraft] = useState({ type: "income", title: "", amount: "", occurredAt: "" });
@@ -154,6 +155,27 @@ export default function DashboardClient() {
     await performAction(() => dashboardRequest(`/progress/${stepId}`, { method: "DELETE" }));
   }
 
+  async function logout() {
+    setActionError("");
+    setIsLoggingOut(true);
+    try {
+      await dashboardRequest("/auth/logout", { method: "POST" });
+      setDashboard(null);
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      if (error.status === 401) {
+        setDashboard(null);
+        router.replace("/");
+        router.refresh();
+        return;
+      }
+      setActionError(error.message || "Could not log out. Please try again.");
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
+
   if (isLoading) {
     return <main className="student-dashboard-page"><div aria-live="polite" className="dashboard-loading">Loading your workspace...</div></main>;
   }
@@ -186,7 +208,24 @@ export default function DashboardClient() {
           <a href="#money">Money basics</a>
           <a href="#progress">Next steps</a>
         </nav>
-        <span className="student-dashboard-label"><span aria-hidden="true" /> Student workspace</span>
+        <div className="student-account-area">
+          <span className="student-dashboard-label"><span aria-hidden="true" /> Student workspace</span>
+          <details className="student-profile">
+            <summary aria-label={`Open ${user.firstName}'s profile`}>
+              <span aria-hidden="true" className="student-profile-avatar">{user.firstName.charAt(0).toUpperCase()}</span>
+              <span className="student-profile-summary"><strong>{user.firstName}</strong><small>Profile</small></span>
+              <span aria-hidden="true" className="student-profile-chevron">⌄</span>
+            </summary>
+            <div className="student-profile-menu">
+              <p className="eyebrow">Your account</p>
+              <strong className="student-profile-name">{user.firstName} {user.lastName}</strong>
+              <a className="student-profile-email" href={`mailto:${user.email}`}>{user.email}</a>
+              <button className="student-profile-logout" disabled={isLoggingOut} onClick={logout} type="button">
+                {isLoggingOut ? "Logging out..." : "Log out"}
+              </button>
+            </div>
+          </details>
+        </div>
       </header>
 
       <section className="student-dashboard-content" aria-labelledby="dashboard-title">

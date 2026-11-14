@@ -145,8 +145,28 @@ footer { width: min(1200px, calc(100% - 64px)); min-height: 78px; display: flex;
 .auth-footer a:hover, .auth-header-prompt a:hover { color: #638e19; }
 .student-dashboard-page { min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(ellipse at 82% 25%, #e8f0d4 0, transparent 37%), var(--paper); }
 .student-dashboard-header { width: min(1120px, calc(100% - 64px)); }
+.student-dashboard-header { position: relative; }
+.student-account-area { display: flex; align-items: center; gap: 18px; }
 .student-dashboard-label { display: inline-flex; align-items: center; gap: 8px; color: #617168; font-size: 12px; font-weight: 650; }
 .student-dashboard-label > span { width: 7px; height: 7px; border-radius: 50%; background: #8eb837; }
+.student-profile { position: relative; }
+.student-profile summary { display: flex; align-items: center; gap: 9px; padding: 5px 7px; border: 1px solid #e1e7dc; border-radius: 7px; background: #fff; cursor: pointer; list-style: none; }
+.student-profile summary::-webkit-details-marker { display: none; }
+.student-profile summary:focus-visible { outline: 2px solid #719b2d; outline-offset: 3px; }
+.student-profile-avatar { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: var(--ink); font-size: 13px; font-weight: 800; }
+.student-profile-summary { display: grid; gap: 2px; }
+.student-profile-summary strong { color: var(--ink); font-size: 10px; }
+.student-profile-summary small { color: #78857c; font-size: 8px; }
+.student-profile-chevron { color: #77877b; font-size: 12px; }
+.student-profile-menu { position: absolute; z-index: 20; top: calc(100% + 8px); right: 0; width: min(280px, calc(100vw - 32px)); display: grid; gap: 8px; padding: 17px; border: 1px solid #e1e7dc; border-radius: 7px; background: #fff; box-shadow: 0 14px 36px rgb(25 51 44 / 13%); }
+.student-profile-menu .eyebrow { margin: 0 0 2px; font-size: 9px; }
+.student-profile-name { color: var(--ink); font-size: 13px; }
+.student-profile-email { overflow-wrap: anywhere; color: #6d7b71; font-size: 10px; }
+.student-profile-email:hover { color: #527d2a; }
+.student-profile-logout { min-height: 38px; margin-top: 5px; padding: 0 12px; border: 1px solid #dfe7d6; border-radius: 5px; background: #f5f8ee; color: #35502e; cursor: pointer; font: inherit; font-size: 11px; font-weight: 750; text-align: left; }
+.student-profile-logout:hover { border-color: #b6cb9d; background: #edf4df; }
+.student-profile-logout:focus-visible { outline: 2px solid #719b2d; outline-offset: 2px; }
+.student-profile-logout:disabled { cursor: wait; opacity: 0.65; }
 .student-dashboard-content { width: min(1120px, calc(100% - 64px)); flex: 1; margin: 0 auto; padding-block: clamp(52px, 9vh, 100px); }
 .student-dashboard-content > .eyebrow { margin-bottom: 15px; }
 .student-dashboard-content > h1 { font-size: clamp(42px, 5vw, 58px); }
@@ -348,6 +368,8 @@ footer { width: min(1200px, calc(100% - 64px)); min-height: 78px; display: flex;
 }
 @media (max-width: 760px) {
   .student-dashboard-header, .student-dashboard-content, .student-dashboard-footer, .dashboard-loading { width: min(100% - 40px, 560px); }
+  .student-account-area { margin-left: auto; gap: 10px; }
+  .student-dashboard-label { display: none; }
   .student-dashboard-content { padding-block: 36px; }
   .student-dashboard-content > h1 { font-size: clamp(36px, 9vw, 48px); }
   .student-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -364,7 +386,8 @@ footer { width: min(1200px, calc(100% - 64px)); min-height: 78px; display: flex;
 }
 @media (max-width: 480px) {
   .student-dashboard-nav { gap: 15px; overflow-x: auto; padding-bottom: 3px; font-size: 10px; }
-  .student-dashboard-label { font-size: 9px; }
+  .student-profile-summary, .student-profile-chevron { display: none; }
+  .student-profile summary { padding: 4px; }
   .dashboard-feature-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
   .dashboard-summary { grid-template-columns: 1fr; }
   .dashboard-summary > div { display: flex; align-items: center; justify-content: space-between; }

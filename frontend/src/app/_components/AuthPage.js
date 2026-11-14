@@ -86,7 +86,7 @@ export default function AuthPage({ mode, registrationSuccess = false }) {
       }
 
       if (isRegister) {
-        router.push("/login?registered=1");
+        router.push("/dashboard");
         return;
       }
 
