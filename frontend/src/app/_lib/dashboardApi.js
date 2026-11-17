@@ -48,17 +48,17 @@ export async function dashboardRequest(path, { method = "GET", body, signal } = 
 }
 
 export async function loadDashboard(signal) {
-  const [identity, ideas, finance, progress] = await Promise.all([
+  const [identity, products, inventory, pitches] = await Promise.all([
     dashboardRequest("/auth/me", { signal }),
-    dashboardRequest("/ideas", { signal }),
-    dashboardRequest("/finance", { signal }),
-    dashboardRequest("/progress", { signal }),
+    dashboardRequest("/products", { signal }),
+    dashboardRequest("/inventory", { signal }),
+    dashboardRequest("/pitches", { signal }),
   ]);
 
   return {
     user: identity.user,
-    ideas: ideas.ideas,
-    finance: finance,
-    steps: progress.steps,
+    products: products.products,
+    inventory: inventory.products,
+    pitches: pitches.pitches,
   };
 }
