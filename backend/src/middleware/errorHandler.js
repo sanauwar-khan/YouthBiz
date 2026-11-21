@@ -12,7 +12,7 @@ export function errorHandler(error, _request, response, _next) {
 
   if (error?.name === "ZodError") {
     const fieldErrors = {};
-    const allowedFields = new Set(["firstName", "lastName", "email", "ageGroup", "password", "confirmPassword", "title", "description", "name", "category", "materials", "unitCost", "sellingPrice", "initialProductionQuantity", "quantity", "notes", "businessName", "products", "productId", "proposedPrice", "expectedQuantity", "targetCustomers", "uniqueValue", "eventDate", "eventLocation"]);
+    const allowedFields = new Set(["firstName", "lastName", "email", "ageGroup", "password", "confirmPassword", "title", "description", "name", "category", "materials", "unitCost", "sellingPrice", "initialProductionQuantity", "quantity", "notes", "businessName", "products", "productId", "proposedPrice", "expectedQuantity", "targetCustomers", "uniqueValue", "eventDate", "eventLocation", "projectName", "overview", "problemStatement", "objectives", "targetUsers", "proposedSolutions", "userStories", "functionalRequirements", "nonFunctionalRequirements", "rolePermissions", "featuresWorkflows", "acceptanceCriteria", "scope", "outOfScope", "successMetrics", "status"]);
     for (const issue of error.issues) {
       const field = issue.path[0];
       if (allowedFields.has(field) && !fieldErrors[field]) {

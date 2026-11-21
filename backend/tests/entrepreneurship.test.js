@@ -266,4 +266,41 @@ if (!hasTestConfiguration) {
     const allPitches = await apiRequest(studentA, "/pitches?includeArchived=true");
     assert.equal(allPitches.data.pitches.length, 1);
   });
+
+  test("same-day date-only pitches save, report date errors, and appear in saved pitches", async () => {
+    const lassiProduct = await apiRequest(studentA, "/products", {
+      method: "POST",
+      body: productPayload({ name: "Lassi", description: "Sweet and tasty", unitCost: 12, sellingPrice: 30 }),
+    });
+    assert.equal(lassiProduct.response.status, 201);
+
+    const eventDate = new Date().toISOString().slice(0, 10);
+    const pitchPayload = {
+      businessName: "Lassi House",
+      description: "Sweet and tasty",
+      products: [{ productId: lassiProduct.data.product.id, proposedPrice: 30, expectedQuantity: 15 }],
+      targetCustomers: "local People",
+      uniqueValue: "This Lassi is Different",
+      eventDate,
+      eventLocation: "village Fair",
+    };
+
+    const created = await apiRequest(studentA, "/pitches", { method: "POST", body: pitchPayload });
+    assert.equal(created.response.status, 201, JSON.stringify(created.data));
+    assert.equal(created.data.pitch.estimatedRevenue, 450);
+    assert.equal(created.data.pitch.estimatedCosts, 180);
+    assert.equal(created.data.pitch.estimatedProfit, 270);
+
+    const savedPitches = await apiRequest(studentA, "/pitches");
+    assert.equal(savedPitches.response.status, 200);
+    assert.ok(savedPitches.data.pitches.some((pitch) => pitch.businessName === "Lassi House"));
+
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    const invalidDate = await apiRequest(studentA, "/pitches", {
+      method: "POST",
+      body: { ...pitchPayload, businessName: "Expired pitch", eventDate: yesterday },
+    });
+    assert.equal(invalidDate.response.status, 400);
+    assert.match(invalidDate.data.fieldErrors.eventDate, /today or later/i);
+  });
 }

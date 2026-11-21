@@ -16,13 +16,17 @@ function emptyPitch() {
 }
 
 function dateInputValue(value) {
+  if (typeof value === "string") {
+    const dateOnly = value.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+    if (dateOnly && !Number.isNaN(new Date(`${dateOnly}T00:00:00.000Z`).getTime())) return dateOnly;
+  }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
 function dateLabel(value) {
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(value));
 }
 
 function formatCurrency(value) {
@@ -133,7 +137,7 @@ export default function BusinessPitchSection({ pitches, products, isSaving, onAc
       })),
       targetCustomers: value.targetCustomers,
       uniqueValue: value.uniqueValue,
-      eventDate: new Date(`${value.eventDate}T12:00:00`).toISOString(),
+      eventDate: value.eventDate,
       eventLocation: value.eventLocation,
     };
   }

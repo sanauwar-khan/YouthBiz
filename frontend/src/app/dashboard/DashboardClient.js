@@ -15,12 +15,26 @@ const dashboardPages = {
   "business-pitch": { title: "Business Pitch & Pop-up", intro: "Build a pitch and plan the details of your next pop-up." },
 };
 
+const actionFieldLabels = {
+  businessName: "Business name",
+  description: "Business description",
+  products: "Products",
+  productId: "Product",
+  proposedPrice: "Proposed price",
+  expectedQuantity: "Expected quantity",
+  targetCustomers: "Target customers",
+  uniqueValue: "What makes your business unique",
+  eventDate: "Proposed event date",
+  eventLocation: "Proposed location",
+};
+
 export default function DashboardClient({ activePage = "products" }) {
   const router = useRouter();
   const [dashboard, setDashboard] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [actionError, setActionError] = useState("");
+  const [actionFieldErrors, setActionFieldErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -50,6 +64,7 @@ export default function DashboardClient({ activePage = "products" }) {
 
   async function performAction(action) {
     setActionError("");
+    setActionFieldErrors({});
     setIsSaving(true);
     try {
       await action();
@@ -62,6 +77,7 @@ export default function DashboardClient({ activePage = "products" }) {
         return false;
       }
       setActionError(error.message || "That change could not be saved. Please try again.");
+      setActionFieldErrors(error.fieldErrors || {});
       return false;
     } finally {
       setIsSaving(false);
@@ -151,7 +167,18 @@ export default function DashboardClient({ activePage = "products" }) {
           </>
         ) : null}
 
-        {actionError && <p className="dashboard-action-error" role="alert">{actionError}</p>}
+        {actionError && (
+          <div className="dashboard-action-error" role="alert">
+            <p>{actionError}</p>
+            {Object.keys(actionFieldErrors).length > 0 && (
+              <ul className="dashboard-field-errors">
+                {Object.entries(actionFieldErrors).map(([field, message]) => (
+                  <li key={field}>{actionFieldLabels[field] || field}: {message}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         {activePage === "products" && <ProductSection isSaving={isSaving} onAction={performAction} products={products} />}
         {activePage === "inventory" && <InventorySection isSaving={isSaving} onAction={performAction} products={inventory} />}

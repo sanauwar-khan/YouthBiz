@@ -8,6 +8,8 @@ import businessPitchRoutes from "./routes/businessPitchRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
 import healthRoutes from "./routes/healthRoutes.js";
+import adminAuthRoutes from "./routes/adminAuthRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import { allowedOrigins } from "./config/origins.js";
 
 const app = express();
@@ -17,6 +19,8 @@ app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin/auth", adminAuthRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/pitches", businessPitchRoutes);

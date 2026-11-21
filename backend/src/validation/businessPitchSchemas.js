@@ -15,6 +15,9 @@ export const businessPitchSchema = z.object({
   ),
   targetCustomers: z.string().trim().min(1).max(600),
   uniqueValue: z.string().trim().min(1).max(1000),
-  eventDate: z.coerce.date().refine((date) => date.getTime() >= Date.now(), "Choose a proposed event date in the future."),
+  eventDate: z.coerce.date().refine(
+    (date) => date.toISOString().slice(0, 10) >= new Date().toISOString().slice(0, 10),
+    "Choose a proposed event date that is today or later.",
+  ),
   eventLocation: z.string().trim().min(1).max(200),
 }).strict();
